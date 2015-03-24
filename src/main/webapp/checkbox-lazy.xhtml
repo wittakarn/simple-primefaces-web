@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+    <ui:define name="form-center">
+        <h:form>
+            <p:dataTable var="car" 
+                         id="checkboxDT"
+                         value="#{ld.lazyModel}" 
+                         selection="#{ld.dummyCars}"
+                         rows="15"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport}  
+                         {FirstPageLink} 
+                         {PreviousPageLink} 
+                         {PageLinks} 
+                         {NextPageLink} 
+                         {LastPageLink} 
+                         {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
+                         rowKey="#{car.id}"
+                         lazy="true">
+                
+                <p:ajax event="page" 
+                        update="checkboxDT" 
+                        process="checkboxDT"
+                        listener="#{ld.managePage}"/>
+                <p:ajax event="rowSelect" 
+                        update="checkboxDT" 
+                        process="checkboxDT"
+                        listener="#{ld.manageRowSelect}"/>
+                <p:ajax event="toggleSelect" 
+                        update="checkboxDT" 
+                        process="checkboxDT"
+                        listener="#{ld.manageToggle}"/>
+                <p:ajax event="rowSelectCheckbox" 
+                        update="checkboxDT" 
+                        process="checkboxDT"
+                        listener="#{ld.manageSelect}"/>
+                <p:ajax event="rowUnselectCheckbox" 
+                        update="checkboxDT" 
+                        process="checkboxDT"
+                        listener="#{ld.manageUnselect}"/>
+
+                <f:facet name="header">
+                    Checkbox
+                </f:facet>
+
+                <p:column selectionMode="multiple" style="text-align:center"/>
+
+                <p:column headerText="Id">
+                    <h:outputText value="#{car.id}" />
+                </p:column>
+
+                <p:column headerText="Year">
+                    <h:outputText value="#{car.year}" />
+                </p:column>
+
+                <p:column headerText="Brand">
+                    <h:outputText value="#{car.brand}" />
+                </p:column>
+
+                <p:column headerText="Color">
+                    <h:outputText value="#{car.color}" />
+                </p:column>
+            </p:dataTable>
+            
+            <p:commandButton
+                value="submit"
+                actionListener="#{ld.submit}"
+                process="@form"
+                update="@form"></p:commandButton>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

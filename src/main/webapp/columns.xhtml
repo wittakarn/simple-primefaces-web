@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <f:view contentType="text/html" encoding="UTF-8" locale="th">
+
+        <!-- ###################################################################### -->
+        <!-- ## Header -->
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <meta http-equiv="pragma" content="no-cache" />
+                <meta http-equiv="cache-control" content="no-cache" />
+                <meta http-equiv="expires" content="0" />
+            </f:facet>
+            <ui:insert name="header" />
+        </h:head>
+
+        <h:body>
+            <h:form>
+                <p:dataTable var="car" 
+                            id="checkboxDT"
+                            value="#{ld.lazyModel}" 
+                            selection="#{ld.dummyCars}"
+                            rows="15"
+                            paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  
+                            {FirstPageLink} 
+                            {PreviousPageLink} 
+                            {PageLinks} 
+                            {NextPageLink} 
+                            {LastPageLink} 
+                            {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="5,10,15"
+                            rowKey="#{car.id}"
+                            lazy="true">
+                   <p:columns value="#{ld.columns}" var="column" columnIndexVar="colIndex" sortBy="#{car[column.property]}">
+                       <f:facet name="header">
+                           <h:outputText value="#{column.header}" />
+                       </f:facet>
+                       <h:outputText value="#{car[column.property]}" />
+                   </p:columns>
+               </p:dataTable>
+            </h:form>
+        </h:body>
+
+    </f:view>
+
+</html>

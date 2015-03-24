@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+    <ui:define name="form-center">
+    <h:form id="form">
+
+        <p:commandButton value="popup" onclick="PF('profiledlg').show()"/>
+
+        <p:dialog id="profileDialogId" widgetVar="profiledlg">                 
+            <p:panelGrid id="categoryFunctions" columns="2" >       
+                <p:outputPanel id="profileFunctions" >
+                    <p:panelGrid  columns="1" >
+                        <p:scrollPanel  mode="native" >
+                            <p:outputLabel for="functionList" 
+                                           value="Functions:" />
+                            <p:selectManyCheckbox id="functionList" 
+                                                  value="#{profileConf.selectedFunctions}" 
+                                                  layout="pageDirection" >
+                                <p:ajax listener="#{profileConf.functionsForCategory}" 
+                                        process="functionList" 
+                                        update="functionList"/>
+                                <f:selectItems  
+                                    value="#{profileConf.categorys}" 
+                                    var="function" 
+                                    itemLabel="#{function.functionDesc}"  
+                                    itemValue="#{function.functionCod}" />
+                            </p:selectManyCheckbox>                                   
+                        </p:scrollPanel>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:panelGrid>
+
+            <p:commandButton value="submit" 
+                             actionListener="#{profileConf.submit}"
+                             process="@this,functionList"
+                             update="@this,functionList"/>
+        </p:dialog>
+    </h:form> 
+    </ui:define>
+
+</ui:composition>
